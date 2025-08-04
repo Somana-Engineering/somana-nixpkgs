@@ -1,0 +1,125 @@
+{
+  "nodes": {
+    "flake-compat": {
+      "locked": {
+        "lastModified": 1733328505,
+        "narHash": "sha256-NeCCThCEP3eCl2l/+27kNNK7QrwZB1IJCrXfrbv5oqU=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "hobiemon": {
+      "flake": false,
+      "locked": {
+        "lastModified": 0,
+        "narHash": "sha256-QuM/1Ce1UZQLwzZJZNZQAlRe6YXFL4taCjrUZo7FK4Y=",
+        "type": "git",
+        "url": "file:///home/nixos/sources/hobiemon"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/nixos/sources/hobiemon"
+      }
+    },
+    "nixos-hardware": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1743167577,
+        "narHash": "sha256-I09SrXIO0UdyBFfh0fxDq5WnCDg8XKmZ1HQbaXzMA1k=",
+        "ref": "refs/heads/master",
+        "rev": "0ed819e708af17bfc4bbc63ee080ef308a24aa42",
+        "revCount": 2172,
+        "type": "git",
+        "url": "ssh://github.com/NixOS/nixos-hardware"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://github.com/NixOS/nixos-hardware"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1731603435,
+        "narHash": "sha256-CqCX4JG7UiHvkrBTpYC3wcEurvbtTADLbo3Ns2CEoL8=",
+        "ref": "refs/tags/24.11",
+        "rev": "aae12a743f75097dd3a60a8265978b995298babc",
+        "revCount": 708351,
+        "type": "git",
+        "url": "ssh://git@github.com/NixOS/nixpkgs"
+      },
+      "original": {
+        "ref": "refs/tags/24.11",
+        "type": "git",
+        "url": "ssh://git@github.com/NixOS/nixpkgs"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "flake-utils": "flake-utils",
+        "hobiemon": "hobiemon",
+        "nixos-hardware": "nixos-hardware",
+        "nixpkgs": "nixpkgs",
+        "rpi-builders": "rpi-builders"
+      }
+    },
+    "rpi-builders": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1743167577,
+        "narHash": "sha256-I09SrXIO0UdyBFfh0fxDq5WnCDg8XKmZ1HQbaXzMA1k=",
+        "rev": "0ed819e708af17bfc4bbc63ee080ef308a24aa42",
+        "revCount": 2172,
+        "type": "git",
+        "url": "ssh://github.com/nix-community/raspberry-pi-nix"
+      },
+      "original": {
+        "rev": "0ed819e708af17bfc4bbc63ee080ef308a24aa42",
+        "type": "git",
+        "url": "ssh://github.com/nix-community/raspberry-pi-nix"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

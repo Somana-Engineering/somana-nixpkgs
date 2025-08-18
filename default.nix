@@ -12,8 +12,6 @@ let
         config = config // {
             allowUnfree = true; 
         }; 
-        # overlays = (import ./overlays.nix outputs.overlays) ++ overlays ++ [ (import ./top-level.nix inputs)];
-        # overlays = overlays;
         overlays = [ (import ./top-level.nix inputs)];
     }); 
 in pkgs

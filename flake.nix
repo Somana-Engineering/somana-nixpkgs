@@ -15,15 +15,15 @@
 
         ## Other Packages ## 
 
-        rpi-builders.url = "git+ssh://github.com/nix-community/raspberry-pi-nix?rev=0ed819e708af17bfc4bbc63ee080ef308a24aa42"; 
-        rpi-builders.flake = false; 
+        # rpi-builders.url = "git+ssh://git@github.com/nix-community/raspberry-pi-nix?rev=0ed819e708af17bfc4bbc63ee080ef308a24aa42"; 
+        # rpi-builders.flake = false; 
 
-        nixos-hardware.url = "git+ssh://github.com/NixOS/nixos-hardware"; 
-        nixos-hardware.flake = false; 
+        nixos-hardware.url = "git+ssh://git@github.com/NixOS/nixos-hardware"; 
+        # nixos-hardware.flake = false; 
     
     }; 
 
-    outputs = {self, flake-compat, flake-utils, nixpkgs, rpi-builders, ...} @ flakeInputs: 
+    outputs = {self, flake-compat, flake-utils, nixpkgs, ...} @ flakeInputs: 
     let 
 
       systems = [ "x86_64-linux" ]; 
@@ -37,11 +37,39 @@
               defaultConfig.allowUnfree = true; 
           }
       ); 
+
+      # Cross-compilation configuration for Raspberry Pi
+      crossSystem = {
+        system = "aarch64-linux";
+        config = "aarch64-unknown-linux-gnu";
+        libc = "glibc";
+        platform = {
+          name = "linux";
+          kernelMajor = "5";
+          kernelHeadersBaseConfig = "defconfig";
+          kernelAutoModules = true;
+          kernelPreferBuiltin = true;
+          kernelTarget = "Image";
+          kernelArch = "arm64";
+          kernelDTB = true;
+          kernelBaseConfig = "defconfig";
+          kernelMakeFlags = [];
+          gcc = {
+            arch = "armv8-a";
+            tune = "generic";
+            abi = "lp64";
+            fpu = "neon-fp-armv8";
+            float-abi = "hard";
+          };
+        };
+      };
+
+    localOverlay =  import ./top-level.nix flakeInputs;
+    builder = import ./machines/builder.nix;
     in {
-        # inherit localModules lib; 
+        # inherit localModules lib;
+        testInputs = flakeInputs;  
 
-
-        localOverlay =  import ./top-level.nix flakeInputs;
 
         legacyPackages = forAllSystems (
             system: 
@@ -60,17 +88,51 @@
             }; 
         }; 
 
-        # aarch64linux = [ "aarch64-linux" ]; 
-        # crossPackages nixpkgs.lib.genAttrs aarch64linux (system: )
-        # = import nixpkgs {
-            
-        # }
-
+        # Base machine for raspberry pi. Can only be built on arm
         machines = {
-            rpi-hobiemon = flakeInputs.nixpkgs.lib.nixosSystem {
+            rpi-base = flakeInputs.nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = [ ./machines/rpi.nix ];
             };
         };
+
+        # Cross-compiled for building on x86
+        xpkgs-machines = {
+            rpi = let
+                system = flakeInputs.nixpkgs.lib.nixosSystem {
+                    system = "aarch64-linux";
+                    modules = [ 
+                        flakeInputs.nixos-hardware.nixosModules.raspberry-pi-4
+                        ./machines/rpi.nix 
+                        {
+                            nixpkgs.crossSystem = crossSystem;
+                            nixpkgs.overlays = [localOverlay];
+                            nixpkgs.config = lib.defaultConfig;
+                        }
+                    ];
+                };
+            in {
+                system = system.config.system.build.toplevel;
+                kernel = system.config.boot.kernelPackages.kernel;
+                initrd = system.config.system.build.initialRamdisk;
+                kernelModules = system.config.system.build.kernelModules;
+            };
+        }; 
+        
+        
+        ## This isn't working quite yet, but will simplify building packages so that they all build the same way
+        xpkgs-rpi = builder {
+            arch = "aarch64-linux"; 
+            inputModules = [
+                flakeInputs.nixos-hardware.nixosModules.raspberry-pi-4 
+                ./machines/rpi.nix 
+                {
+                    nixpkgs.crossSystem = crossSystem;
+                    nixpkgs.overlays = [localOverlay];
+                    nixpkgs.config = lib.defaultConfig;
+                }
+            ]; 
+            nixpkgs = flakeInputs.nixpkgs; 
+        }; 
     };
 }

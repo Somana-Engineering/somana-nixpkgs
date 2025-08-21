@@ -1,12 +1,14 @@
+system-type:
+addModules: 
 {
-  arch,
   inputModules, 
   nixpkgs
 }: 
 let 
   system = nixpkgs.lib.nixosSystem {
-    system = "aarch64-linux";
-    modules = if builtins.isList inputModules then inputModules else [ inputModules ];
+    system = system-type;
+    modules = if builtins.isList inputModules then inputModules ++ addModules else [ inputModules ] ++ [ addModules];
+    # modules = if builtins.isList addModules then listModules ++ addModules else listModules ++ [ addModules ]; 
   };
 in {
     default = system.config.system.build.toplevel;

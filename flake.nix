@@ -2,7 +2,7 @@
     description = "Will's local nixpkgs"; 
 
     inputs = {
-        nixpkgs.url = "git+ssh://git@github.com/NixOS/nixpkgs?ref=refs/tags/24.11";
+        nixpkgs.url = "git+ssh://git@github.com/NixOS/nixpkgs?ref=refs/tags/25.05";
 
         flake-utils.url = "github:numtide/flake-utils"; 
 
@@ -15,17 +15,15 @@
 
         ## Other Packages ## 
 
-        # rpi-builders.url = "git+ssh://git@github.com/nix-community/raspberry-pi-nix?rev=0ed819e708af17bfc4bbc63ee080ef308a24aa42"; 
-        # rpi-builders.flake = false; 
-
         nixos-hardware.url = "git+ssh://git@github.com/NixOS/nixos-hardware"; 
-        # nixos-hardware.flake = false; 
+        jetpack.url = "git+ssh://git@github.com/anduril/jetpack-nixos"; 
+        jetpack.inputs.nixpkgs.follows = "nixpkgs"; 
     
     }; 
 
-    outputs = {self, flake-compat, flake-utils, nixpkgs, ...} @ flakeInputs: 
+    outputs = {self, flake-compat, flake-utils, nixpkgs, jetpack, ...} @ flakeInputs: 
     let 
-
+        
       systems = [ "x86_64-linux" ]; 
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
       localModules = [./pkgs/top-level/modules.nix]; 
@@ -65,11 +63,16 @@
       };
 
     localOverlay =  import ./top-level.nix flakeInputs;
-    builder = import ./machines/builder.nix;
+    arm-builder = import ./machines/builder.nix "aarch64-linux" [];
+    x86-builder = import ./machines/builder.nix "x86_64-linux" [];
+    xpkgs-builder = import ./machines/builder.nix "aarch64-linux" [{
+                            nixpkgs.crossSystem = crossSystem;
+                            nixpkgs.overlays = [localOverlay];
+                            nixpkgs.config = lib.defaultConfig;
+                        }];  
     in {
         # inherit localModules lib;
         testInputs = flakeInputs;  
-
 
         legacyPackages = forAllSystems (
             system: 
@@ -90,10 +93,8 @@
 
         # Base machine for raspberry pi. Can only be built on arm
         machines = {
-            rpi-base = flakeInputs.nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = [ ./machines/rpi.nix ];
-            };
+            rpi-base = arm-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
+            orin-base = arm-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
         };
 
         # Cross-compiled for building on x86
@@ -121,16 +122,10 @@
         
         
         ## This isn't working quite yet, but will simplify building packages so that they all build the same way
-        xpkgs-rpi = builder {
-            arch = "aarch64-linux"; 
+        xpkgs-rpi = xpkgs-builder {
             inputModules = [
                 flakeInputs.nixos-hardware.nixosModules.raspberry-pi-4 
                 ./machines/rpi.nix 
-                {
-                    nixpkgs.crossSystem = crossSystem;
-                    nixpkgs.overlays = [localOverlay];
-                    nixpkgs.config = lib.defaultConfig;
-                }
             ]; 
             nixpkgs = flakeInputs.nixpkgs; 
         }; 

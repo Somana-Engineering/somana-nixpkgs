@@ -33,6 +33,26 @@
         "type": "github"
       }
     },
+    "jetpack": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1755736780,
+        "narHash": "sha256-T+epWovnsdW9+qtjb4uOHQxP3CfaR4gi9MGx+c8dFAg=",
+        "ref": "refs/heads/master",
+        "rev": "d9530d50b82b71c224046ce95c04d06cb218f297",
+        "revCount": 523,
+        "type": "git",
+        "url": "ssh://git@github.com/anduril/jetpack-nixos"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/anduril/jetpack-nixos"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1755330281,
@@ -50,16 +70,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1731603435,
-        "narHash": "sha256-CqCX4JG7UiHvkrBTpYC3wcEurvbtTADLbo3Ns2CEoL8=",
-        "ref": "refs/tags/24.11",
-        "rev": "aae12a743f75097dd3a60a8265978b995298babc",
-        "revCount": 708351,
+        "lastModified": 1748026580,
+        "narHash": "sha256-rWtXrcIzU5wm/C8F9LWvUfBGu5U5E7cFzPYT1pHIJaQ=",
+        "ref": "refs/tags/25.05",
+        "rev": "afb2b21ba489196da32cd9f0072e0dce6588a20a",
+        "revCount": 802353,
         "type": "git",
         "url": "ssh://git@github.com/NixOS/nixpkgs"
       },
       "original": {
-        "ref": "refs/tags/24.11",
+        "ref": "refs/tags/25.05",
         "type": "git",
         "url": "ssh://git@github.com/NixOS/nixpkgs"
       }
@@ -68,6 +88,7 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
+        "jetpack": "jetpack",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs"
       }

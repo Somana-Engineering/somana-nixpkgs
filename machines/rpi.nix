@@ -7,7 +7,6 @@ let
   timeZone = "America/New_York";
   defaultLocale = "en_US.UTF-8";
 in {
-  # imports = [ nixos-hardware.nixosModules.raspberry-pi-4 ];
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
@@ -42,9 +41,20 @@ in {
   # Enable passwordless sudo. 
   security.sudo.extraRules= [ { users = [ user ]; commands = [ { command = "ALL" ; options= [ "NOPASSWD" ]; } ]; } ];
   # Enable GPU acceleration 
-  hardware.raspberry-pi."4".fkms-3d.enable = true;
+  # hardware.raspberry-pi."4".fkms-3d.enable = true;
   services.xserver = {
     enable = true;
   };
+  boot.loader = {
+  efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi";
+    };
+    grub = {
+      efiSupport = true;
+      device = "nodev";
+    };
+  };
+
   system.stateVersion = "23.11";
 }

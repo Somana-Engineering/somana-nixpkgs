@@ -7,8 +7,7 @@ addModules:
 let 
   system = nixpkgs.lib.nixosSystem {
     system = system-type;
-    modules = if builtins.isList inputModules then inputModules ++ addModules else [ inputModules ] ++ [ addModules];
-    # modules = if builtins.isList addModules then listModules ++ addModules else listModules ++ [ addModules ]; 
+    modules = if builtins.isList inputModules then inputModules ++ addModules else [ inputModules ] ++ [ addModules ];
   };
 in {
     default = system.config.system.build.toplevel;

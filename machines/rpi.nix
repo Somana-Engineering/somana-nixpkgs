@@ -27,7 +27,7 @@ in {
 
   # Ability to add a network bridge interface
   # networking.bridges.br0.interfaces = [ "eth0" "wlan0" ];
-  environment.systemPackages = with pkgs; [ firefox vim ];
+  environment.systemPackages = with pkgs; [ curl vim ];
   services.openssh.enable = true;
   time.timeZone = timeZone;
   users = {

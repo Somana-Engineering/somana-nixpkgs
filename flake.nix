@@ -70,6 +70,8 @@
                             nixpkgs.overlays = [localOverlay];
                             nixpkgs.config = lib.defaultConfig;
                         }];  
+
+    callPackage = set: f: overrides: f ((builtins.intersectAttrs (builtins.functionArgs f) set) // overrides); 
     in {
         # inherit localModules lib;
         testInputs = flakeInputs;  
@@ -99,27 +101,24 @@
 
         # Cross-compiled for building on x86
         xpkgs-machines = {
-            rpi = let
-                system = flakeInputs.nixpkgs.lib.nixosSystem {
-                    system = "aarch64-linux";
-                    modules = [ 
-                        flakeInputs.nixos-hardware.nixosModules.raspberry-pi-4
-                        ./machines/rpi.nix 
-                        {
-                            nixpkgs.crossSystem = crossSystem;
-                            nixpkgs.overlays = [localOverlay];
-                            nixpkgs.config = lib.defaultConfig;
-                        }
-                    ];
-                };
-            in {
-                system = system.config.system.build.toplevel;
-                kernel = system.config.boot.kernelPackages.kernel;
-                initrd = system.config.system.build.initialRamdisk;
-                kernelModules = system.config.system.build.kernelModules;
-            };
+            rpi = xpkgs-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
+            orin = xpkgs-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
         }; 
         
+        vms = {
+            arm-builder = self.legacyPackages.x86_64-linux.arm-builder.default; 
+        };
+        
+        
+        ## This isn't working quite yet, but will simplify building packages so that they all build the same way
+        # xpkgs-rpi = xpkgs-builder {
+        #     inputModules = [
+        #         flakeInputs.nixos-hardware.nixosModules.raspberry-pi-4 
+        #         ./machines/rpi.nix 
+        #     ]; 
+        #     nixpkgs = flakeInputs.nixpkgs; 
+        # }; 
+
         
         ## This isn't working quite yet, but will simplify building packages so that they all build the same way
         xpkgs-rpi = xpkgs-builder {

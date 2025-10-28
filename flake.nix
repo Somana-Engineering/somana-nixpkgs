@@ -99,6 +99,17 @@
             {
                 imports = localModules; 
             }; 
+        };
+
+        nixosConfigurations = {
+            orin-base = nixpkgs.lib.nixosSystem {
+                system = "aarch64-linux";
+                modules = [
+                    ./machines/orin.nix
+                    ./machines/hardware/orin-hardware.nix
+                ];
+                specialArgs = { inherit flakeInputs; };
+            };
         }; 
 
         # Base machines for ARM devices. Can only be built on arm

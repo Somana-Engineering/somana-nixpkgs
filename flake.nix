@@ -99,7 +99,7 @@
             }; 
         }; 
 
-        # Base machine for raspberry pi. Can only be built on arm
+        # Base machines for ARM devices. Can only be built on arm
         machines = {
             rpi-base = arm-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
             orin-base = arm-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 

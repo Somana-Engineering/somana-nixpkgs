@@ -1,20 +1,20 @@
 { config, pkgs, lib, flakeInputs, ... }:
 let
   hostname = "orin";
-  user = "nixos";
-  password = "nixos";
+  user = "somana";
+  password = "somana";
   timeZone = "America/New_York";
   defaultLocale = "en_US.UTF-8";
 in {
   imports = [
-    # flakeInputs.jetpack.nixosModules.default  # Temporarily disabled due to compatibility issues
+    flakeInputs.jetpack.nixosModules.default
     ./hardware/orin-hardware.nix
   ];
 
-  # Enable JetPack support - temporarily disabled
-  # hardware.nvidia-jetpack.enable = true;
-  # hardware.nvidia-jetpack.som = "orin-agx";      # use orin-agx for AGX Orin
-  # hardware.nvidia-jetpack.carrierBoard = "devkit";
+  # Enable JetPack support
+  hardware.nvidia-jetpack.enable = true;
+  hardware.nvidia-jetpack.som = "orin-agx";      # use orin-agx for AGX Orin
+  hardware.nvidia-jetpack.carrierBoard = "devkit";
 
   # File systems and networking are handled by hardware-configuration.nix
 
@@ -51,6 +51,9 @@ in {
       isNormalUser = true;
       password = password;
       extraGroups = [ "wheel" "docker" "video" ];
+    };
+    users.root = {
+      password = "somana";
     };
   };
 

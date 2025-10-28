@@ -1,8 +1,8 @@
 { config, pkgs, lib, flakeInputs, ... }:
 let
   hostname = "orin";
-  user = "somana";
-  password = "somana";
+  user = "nixos";
+  password = "nixos";
   timeZone = "America/New_York";
   defaultLocale = "en_US.UTF-8";
 in {
@@ -53,7 +53,7 @@ in {
       extraGroups = [ "wheel" "docker" "video" ];
     };
     users.root = {
-      password = "somana";
+      password = "nixos";
     };
   };
 

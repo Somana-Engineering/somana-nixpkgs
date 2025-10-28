@@ -2,12 +2,14 @@ system-type:
 addModules: 
 {
   inputModules, 
-  nixpkgs
+  nixpkgs,
+  flakeInputs ? {}
 }: 
 let 
   system = nixpkgs.lib.nixosSystem {
     system = system-type;
     modules = if builtins.isList inputModules then inputModules ++ addModules else [ inputModules ] ++ [ addModules ];
+    specialArgs = { inherit flakeInputs; };
   };
 in {
     default = system.config.system.build.toplevel;

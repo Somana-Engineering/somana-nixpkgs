@@ -101,14 +101,14 @@
 
         # Base machines for ARM devices. Can only be built on arm
         machines = {
-            rpi-base = arm-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
-            orin-base = arm-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
+            rpi-base = arm-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; flakeInputs = flakeInputs; }; 
+            orin-base = arm-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; flakeInputs = flakeInputs; }; 
         };
 
         # Cross-compiled for building on x86
         xpkgs-machines = {
-            rpi = xpkgs-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
-            orin = xpkgs-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
+            rpi = xpkgs-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; flakeInputs = flakeInputs; }; 
+            orin = xpkgs-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; flakeInputs = flakeInputs; }; 
         }; 
         
         vms = {

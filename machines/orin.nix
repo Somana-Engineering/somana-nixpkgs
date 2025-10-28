@@ -7,14 +7,14 @@ let
   defaultLocale = "en_US.UTF-8";
 in {
   imports = [
-    flakeInputs.jetpack.nixosModules.default
+    # flakeInputs.jetpack.nixosModules.default  # Temporarily disabled due to compatibility issues
     ./hardware/orin-hardware.nix
   ];
 
-  # Enable JetPack support
-  hardware.nvidia-jetpack.enable = true;
-  hardware.nvidia-jetpack.som = "orin-agx";      # use orin-agx for AGX Orin
-  hardware.nvidia-jetpack.carrierBoard = "devkit";
+  # Enable JetPack support - temporarily disabled
+  # hardware.nvidia-jetpack.enable = true;
+  # hardware.nvidia-jetpack.som = "orin-agx";      # use orin-agx for AGX Orin
+  # hardware.nvidia-jetpack.carrierBoard = "devkit";
 
   # File systems and networking are handled by hardware-configuration.nix
 
@@ -29,8 +29,8 @@ in {
     htop
     tmux
     # CUDA/GPU tools
-    cudaPackages.cuda-toolkit
-    cudaPackages.cudnn
+    cudatoolkit
+    # cudnn  # Temporarily disabled - package not found
   ];
 
   # Services

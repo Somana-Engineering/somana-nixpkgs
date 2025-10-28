@@ -63,7 +63,9 @@
       };
 
     localOverlay =  import ./top-level.nix flakeInputs;
-    arm-builder = import ./machines/builder.nix "aarch64-linux" [];
+    arm-builder = import ./machines/builder.nix "aarch64-linux" [{
+                            nixpkgs.config = lib.defaultConfig;
+                        }];
     x86-builder = import ./machines/builder.nix "x86_64-linux" [];
     xpkgs-builder = import ./machines/builder.nix "aarch64-linux" [{
                             nixpkgs.crossSystem = crossSystem;

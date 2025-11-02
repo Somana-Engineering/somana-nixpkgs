@@ -9,7 +9,7 @@
         flake-compat.url = "github:edolstra/flake-compat"; 
 
         nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
-        
+
         ## Your Packages ## 
         
         # pkg.url = "git+ssh://<URL>"; 
@@ -74,7 +74,9 @@
       };
 
     localOverlay =  import ./top-level.nix flakeInputs;
-    arm-builder = import ./machines/builder.nix "aarch64-linux" [];
+    arm-builder = import ./machines/builder.nix "aarch64-linux" [{
+                            nixpkgs.config = lib.defaultConfig;
+                        }];
     x86-builder = import ./machines/builder.nix "x86_64-linux" [];
     xpkgs-builder = import ./machines/builder.nix "aarch64-linux" [{
                             nixpkgs.crossSystem = crossSystem;
@@ -108,9 +110,20 @@
             {
                 imports = localModules; 
             }; 
+        };
+
+        nixosConfigurations = {
+            orin-base = nixpkgs.lib.nixosSystem {
+                system = "aarch64-linux";
+                modules = [
+                    ./machines/orin.nix
+                    ./machines/hardware/orin-hardware.nix
+                ];
+                specialArgs = { inherit flakeInputs; };
+            };
         }; 
 
-        # Base machine for raspberry pi. Can only be built on arm
+        # Base machines for ARM devices. Can only be built on arm
         machines = {
             rpi-base = arm-builder { inputModules = [ ./machines/rpi5.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
             rpi5-base = nixos-raspberrypi.lib.nixosSystemFull {
@@ -132,8 +145,8 @@
 
         # Cross-compiled for building on x86
         xpkgs-machines = {
-            rpi = xpkgs-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
-            orin = xpkgs-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
+            rpi = xpkgs-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; flakeInputs = flakeInputs; }; 
+            orin = xpkgs-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; flakeInputs = flakeInputs; }; 
         }; 
         
         vms = {

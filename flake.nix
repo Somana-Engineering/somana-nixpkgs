@@ -7,7 +7,9 @@
         flake-utils.url = "github:numtide/flake-utils"; 
 
         flake-compat.url = "github:edolstra/flake-compat"; 
-    
+
+        nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+        
         ## Your Packages ## 
         
         # pkg.url = "git+ssh://<URL>"; 
@@ -21,7 +23,16 @@
     
     }; 
 
-    outputs = {self, flake-compat, flake-utils, nixpkgs, jetpack, ...} @ flakeInputs: 
+    nixConfig = {
+        extra-substituters = [
+            "https://nixos-raspberrypi.cachix.org"
+        ];
+        extra-trusted-public-keys = [
+            "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+        ];
+    };
+
+    outputs = {self, flake-compat, flake-utils, nixpkgs, jetpack, nixos-raspberrypi, disko, ...} @ flakeInputs: 
     let 
         
       systems = [ "x86_64-linux" ]; 
@@ -101,7 +112,21 @@
 
         # Base machine for raspberry pi. Can only be built on arm
         machines = {
-            rpi-base = arm-builder { inputModules = [ ./machines/rpi.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
+            rpi-base = arm-builder { inputModules = [ ./machines/rpi5.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
+            rpi5-base = nixos-raspberrypi.lib.nixosSystemFull {
+                specialArgs = flakeInputs;
+                modules = [
+                    {
+                    imports = with nixos-raspberrypi.nixosModules; [
+                        raspberry-pi-5.base
+                        raspberry-pi-5.page-size-16k
+                        raspberry-pi-5.display-vc4
+                        raspberry-pi-5.bluetooth
+                    ];
+                }
+                ./machines/rpi5.nix
+                ];
+            }; 
             orin-base = arm-builder { inputModules = [ ./machines/orin.nix ]; nixpkgs = flakeInputs.nixpkgs; }; 
         };
 

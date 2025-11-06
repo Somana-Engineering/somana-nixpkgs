@@ -7,19 +7,22 @@ let
   defaultLocale = "en_US.UTF-8";
 in {
   imports = [
-    # flakeInputs.jetpack.nixosModules.default  # Temporarily disabled due to compatibility issues
+    flakeInputs.jetpack.nixosModules.default
     ./hardware/orin-hardware.nix
   ];
 
-  # Enable JetPack support - temporarily disabled
-  # hardware.nvidia-jetpack.enable = true;
-  # hardware.nvidia-jetpack.som = "orin-agx";      # use orin-agx for AGX Orin
-  # hardware.nvidia-jetpack.carrierBoard = "devkit";
+  # Enable JetPack support
+  hardware.nvidia-jetpack.enable = true;
+  hardware.nvidia-jetpack.som = "orin-agx";      # use orin-agx for AGX Orin
+  hardware.nvidia-jetpack.carrierBoard = "devkit";
 
   # File systems and networking are handled by hardware-configuration.nix
 
   # Networking
   networking.hostName = hostname;
+
+  # Allow unfree packages (needed for CUDA)
+  nixpkgs.config.allowUnfree = true;
 
   # System packages
   environment.systemPackages = with pkgs; [
@@ -36,8 +39,10 @@ in {
   # Services
   services.openssh = {
     enable = true;
-    permitRootLogin = "yes";
-    passwordAuthentication = true;
+    settings = {
+      PermitRootLogin = "yes";
+      PasswordAuthentication = true;
+    };
   };
 
   # Time zone
@@ -70,9 +75,7 @@ in {
     }
   ];
 
-  # Boot configuration for Jetson
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Boot configuration handled by JetPack module
 
   # GPU support (recommended)
   hardware.graphics.enable = true;

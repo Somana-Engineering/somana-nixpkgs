@@ -1,111 +1,71 @@
 {
   "nodes": {
-    "flake-compat": {
+    "cuda-legacy": {
+      "inputs": {
+        "flake-parts": [
+          "jetpack-nixos",
+          "cuda-legacy"
+        ],
+        "nixpkgs": [
+          "jetpack-nixos",
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1733328505,
-        "narHash": "sha256-NeCCThCEP3eCl2l/+27kNNK7QrwZB1IJCrXfrbv5oqU=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
+        "lastModified": 1762806692,
+        "narHash": "sha256-JhgQIwJe0U2vxj+pu+Sgm+VLgNqucpXtZYGKZOgkQdc=",
+        "owner": "nixos-cuda",
+        "repo": "cuda-legacy",
+        "rev": "9856d70acc3e2ae9081930b33d946326e07f1482",
         "type": "github"
       },
       "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
+        "owner": "nixos-cuda",
+        "repo": "cuda-legacy",
         "type": "github"
       }
     },
-    "flake-utils": {
+    "jetpack-nixos": {
       "inputs": {
-        "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "jetpack": {
-      "inputs": {
+        "cuda-legacy": "cuda-legacy",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1755736780,
-        "narHash": "sha256-T+epWovnsdW9+qtjb4uOHQxP3CfaR4gi9MGx+c8dFAg=",
-        "ref": "refs/heads/master",
-        "rev": "d9530d50b82b71c224046ce95c04d06cb218f297",
-        "revCount": 523,
-        "type": "git",
-        "url": "ssh://git@github.com/anduril/jetpack-nixos"
+        "lastModified": 1762893463,
+        "narHash": "sha256-BC0ozUxjiv9CA6tjP3zWbYtsjGea+krQ2NVlGIchYIY=",
+        "owner": "anduril",
+        "repo": "jetpack-nixos",
+        "rev": "1806d52e8c3e50803f4bb660cba5da6ccb8a863e",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/anduril/jetpack-nixos"
-      }
-    },
-    "nixos-hardware": {
-      "locked": {
-        "lastModified": 1755330281,
-        "narHash": "sha256-aJHFJWP9AuI8jUGzI77LYcSlkA9wJnOIg4ZqftwNGXA=",
-        "ref": "refs/heads/master",
-        "rev": "3dac8a872557e0ca8c083cdcfc2f218d18e113b0",
-        "revCount": 2331,
-        "type": "git",
-        "url": "ssh://git@github.com/NixOS/nixos-hardware"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/NixOS/nixos-hardware"
+        "owner": "anduril",
+        "repo": "jetpack-nixos",
+        "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1748026580,
-        "narHash": "sha256-rWtXrcIzU5wm/C8F9LWvUfBGu5U5E7cFzPYT1pHIJaQ=",
-        "ref": "refs/tags/25.05",
-        "rev": "afb2b21ba489196da32cd9f0072e0dce6588a20a",
-        "revCount": 802353,
-        "type": "git",
-        "url": "ssh://git@github.com/NixOS/nixpkgs"
+        "lastModified": 1762962661,
+        "narHash": "sha256-KsCSdKMZVaCeA4oJn2sUIvMdCdAQVJCMY7w7PLN0BJ4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "11d90faa5e023c5ba822f051611e2f1ae9d3a378",
+        "type": "github"
       },
       "original": {
-        "ref": "refs/tags/25.05",
-        "type": "git",
-        "url": "ssh://git@github.com/NixOS/nixpkgs"
+        "owner": "NixOS",
+        "ref": "release-25.05",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "root": {
       "inputs": {
-        "flake-compat": "flake-compat",
-        "flake-utils": "flake-utils",
-        "jetpack": "jetpack",
-        "nixos-hardware": "nixos-hardware",
+        "jetpack-nixos": "jetpack-nixos",
         "nixpkgs": "nixpkgs"
-      }
-    },
-    "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
       }
     }
   },

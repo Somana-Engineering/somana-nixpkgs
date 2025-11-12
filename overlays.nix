@@ -1,3 +1,0 @@
-overlays: with overlays [
-    default
-]

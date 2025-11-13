@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   imports = [ ./hardware.nix ];
 
@@ -30,22 +30,22 @@
   # Users
   users = {
     mutableUsers = false;
-    users.nixos = {
+    users.somana = {
       isNormalUser = true;
-      password = "nixos";
+      password = "somana";
       extraGroups = [
         "wheel"
         "docker"
         "video"
       ];
     };
-    users.root.password = "nixos";
+    users.root.password = "somana";
   };
 
   # Enable passwordless sudo
   security.sudo.extraRules = [
     {
-      users = [ config.users.users.nixos.name ];
+      users = [ config.users.users.somana.name ];
       commands = [
         {
           command = "ALL";
@@ -54,7 +54,11 @@
       ];
     }
   ];
-
+  
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+  ];
   # Boot configuration handled by JetPack module
 
   # # GPU support (recommended)
@@ -63,5 +67,11 @@
   # System state
   system.stateVersion = "25.05"; # Match your working system
 
-  services.somana-agent.enable = true;
+  services.somana-agent = {
+    enable = true;
+    somanaUrl = "http://3.14.12.179:8080";
+    hostId = "5";
+  };
+  
+  services.tailscale.enable = true;
 }

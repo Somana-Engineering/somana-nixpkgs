@@ -58,11 +58,20 @@
   environment.systemPackages = with pkgs; [
     vim
     git
+    # ROS 2 Humble (LTS) - includes base ROS 2 packages and desktop tools
+    rosPackages.humble.base
+    rosPackages.humble.desktop
   ];
   # Boot configuration handled by JetPack module
 
   # # GPU support (recommended)
   # hardware.graphics.enable = true;
+
+  # ROS 2 Environment
+  environment.variables = {
+    ROS_DISTRO = "humble";
+    ROS_VERSION = "2";
+  };
 
   # System state
   system.stateVersion = "25.05"; # Match your working system

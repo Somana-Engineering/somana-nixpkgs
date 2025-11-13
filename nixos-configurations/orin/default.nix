@@ -73,6 +73,17 @@
     ROS_VERSION = "2";
   };
 
+  # Automatically source ROS setup files in user shells
+  programs.bash.interactiveShellInit = ''
+    # Source ROS 2 Humble setup files if they exist
+    if [ -f "${pkgs.rosPackages.humble.base}/setup.bash" ]; then
+      source "${pkgs.rosPackages.humble.base}/setup.bash"
+    fi
+    if [ -f "${pkgs.rosPackages.humble.desktop}/setup.bash" ]; then
+      source "${pkgs.rosPackages.humble.desktop}/setup.bash"
+    fi
+  '';
+
   # System state
   system.stateVersion = "25.05"; # Match your working system
 

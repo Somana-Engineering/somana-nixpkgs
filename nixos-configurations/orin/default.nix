@@ -58,12 +58,29 @@
   environment.systemPackages = with pkgs; [
     vim
     git
+
+    (with rosPackages.jazzy; buildEnv {
+      name = "ros-jazzy-env";
+      paths = [
+        ros-core
+        ros-base
+        # add more ROS packages here if you want (rviz2, rosbag2, etc.)
+      ];
+    })
   ];
+  
   # Boot configuration handled by JetPack module
 
   # # GPU support (recommended)
   # hardware.graphics.enable = true;
 
+  # ROS 2 Environment
+  environment.variables = {
+    ROS_DISTRO = "jazzy";
+    ROS_VERSION = "2";
+  };
+
+ 
   # System state
   system.stateVersion = "25.05"; # Match your working system
 

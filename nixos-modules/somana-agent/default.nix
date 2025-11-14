@@ -31,12 +31,6 @@ in {
 
   #### 2) Config + systemd service, only if enabled
   config = lib.mkIf cfg.enable {
-    # Write /etc/somana-agent/config.yaml from Nix
-    environment.etc."somana-agent/config.yaml" = {
-      mode = "0644";
-      source = configFile;
-    };
-
     # systemd unit
     systemd.services.somana-agent = {
       description = "Somana Agent";

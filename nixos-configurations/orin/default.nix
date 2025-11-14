@@ -59,7 +59,7 @@
     vim
     git
     # ROS 2 Jazzy Base (from nix-ros-overlay)
-    rosPackages.jazzy.base
+    rosPackages.jazzy.ros-base
   ];
   # Boot configuration handled by JetPack module
 
@@ -72,8 +72,13 @@
     ROS_VERSION = "2";
   };
 
-  # ROS setup files will be available via the packages in systemPackages
-  # Users may need to manually source setup.bash files if needed
+  # Automatically source ROS setup files in user shells
+  programs.bash.interactiveShellInit = ''
+    # Source ROS 2 Jazzy Base setup files
+    if [ -f "${pkgs.rosPackages.jazzy.ros-base}/setup.bash" ]; then
+      source "${pkgs.rosPackages.jazzy.ros-base}/setup.bash"
+    fi
+  '';
 
   # System state
   system.stateVersion = "25.05"; # Match your working system

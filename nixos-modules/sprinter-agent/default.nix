@@ -4,7 +4,7 @@ let
   cfg = config.services.sprinter-agent;
   configFile = (pkgs.formats.yaml {}).generate "sprinter-agent-config.yaml" {
     host_registration = {
-      somana_url = cfg.sprinterUrl;  # Service binary still expects 'somana_url' in YAML
+      sprinter_url = cfg.sprinterUrl;
       host_id = cfg.hostId;
     };
   };

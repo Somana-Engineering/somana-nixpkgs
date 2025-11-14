@@ -7,7 +7,7 @@
 
 buildGoModule (finalAttrs: {
   pname = "sprinter-agent";
-  version = "1.0.22";
+  version = "1.0.23";
 
   src = fetchFromGitHub {
     owner = "somana-engineering";

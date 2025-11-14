@@ -58,9 +58,8 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    # ROS 2 Humble (LTS) - includes base ROS 2 packages and desktop tools
-    rosPackages.humble.base
-    rosPackages.humble.desktop
+    # ROS 2 Jazzy Base (from nix-ros-overlay)
+    rosPackages.jazzy.base
   ];
   # Boot configuration handled by JetPack module
 
@@ -69,18 +68,15 @@
 
   # ROS 2 Environment
   environment.variables = {
-    ROS_DISTRO = "humble";
+    ROS_DISTRO = "jazzy";
     ROS_VERSION = "2";
   };
 
   # Automatically source ROS setup files in user shells
   programs.bash.interactiveShellInit = ''
-    # Source ROS 2 Humble setup files if they exist
-    if [ -f "${pkgs.rosPackages.humble.base}/setup.bash" ]; then
-      source "${pkgs.rosPackages.humble.base}/setup.bash"
-    fi
-    if [ -f "${pkgs.rosPackages.humble.desktop}/setup.bash" ]; then
-      source "${pkgs.rosPackages.humble.desktop}/setup.bash"
+    # Source ROS 2 Jazzy Base setup files
+    if [ -f "${pkgs.rosPackages.jazzy.base}/setup.bash" ]; then
+      source "${pkgs.rosPackages.jazzy.base}/setup.bash"
     fi
   '';
 

@@ -2,6 +2,6 @@ inputs:
 
 {
   default = final: prev: {
-    somana-agent = final.callPackage ./somana-agent { };
+    sprinter-agent = final.callPackage ./sprinter-agent { };
   };
 }

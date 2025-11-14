@@ -1,7 +1,7 @@
 inputs: {
   default = {
     imports = [
-      ./somana-agent
+      ./sprinter-agent
       inputs.jetpack-nixos.nixosModules.default
       { 
         nixpkgs.overlays = [

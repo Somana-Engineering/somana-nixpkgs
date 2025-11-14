@@ -58,9 +58,17 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    # ROS 2 Jazzy Base (from nix-ros-overlay)
-    rosPackages.jazzy.ros-base
+
+    (with rosPackages.jazzy; buildEnv {
+      name = "ros-jazzy-env";
+      paths = [
+        ros-core
+        ros-base
+        # add more ROS packages here if you want (rviz2, rosbag2, etc.)
+      ];
+    })
   ];
+  
   # Boot configuration handled by JetPack module
 
   # # GPU support (recommended)
@@ -75,8 +83,16 @@
   # Automatically source ROS setup files in user shells
   programs.bash.interactiveShellInit = ''
     # Source ROS 2 Jazzy Base setup files
-    if [ -f "${pkgs.rosPackages.jazzy.ros-base}/setup.bash" ]; then
-      source "${pkgs.rosPackages.jazzy.ros-base}/setup.bash"
+    # Try multiple possible locations for setup.bash
+    ROS_SETUP="${pkgs.rosPackages.jazzy.ros-base}/setup.bash"
+    if [ ! -f "$ROS_SETUP" ]; then
+      ROS_SETUP="${pkgs.rosPackages.jazzy.ros-base}/share/ros-jazzy-ros-base/setup.bash"
+    fi
+    if [ ! -f "$ROS_SETUP" ]; then
+      ROS_SETUP="${pkgs.rosPackages.jazzy.ros-base}/share/ros2_jazzy_ros_base/setup.bash"
+    fi
+    if [ -f "$ROS_SETUP" ]; then
+      source "$ROS_SETUP"
     fi
   '';
 

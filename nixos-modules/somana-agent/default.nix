@@ -2,6 +2,12 @@
 
 let
   cfg = config.services.somana-agent;
+  configFile = (pkgs.formats.yaml {}).generate "somana-agent-config.yaml" {
+    host_registration = {
+      somana_url = cfg.somanaUrl;
+      host_id = cfg.hostId;
+    };
+  };
 in {
   #### 1) Options for this module
   options.services.somana-agent = {
@@ -25,16 +31,6 @@ in {
 
   #### 2) Config + systemd service, only if enabled
   config = lib.mkIf cfg.enable {
-    # Write /etc/somana-agent/config.yaml from Nix
-    environment.etc."somana-agent/config.yaml" = {
-      mode = "0644";
-      text = ''
-        host_registration:
-          somana_url: ${cfg.somanaUrl}
-          host_id: "${cfg.hostId}"
-      '';
-    };
-
     # systemd unit
     systemd.services.somana-agent = {
       description = "Somana Agent";
@@ -42,21 +38,18 @@ in {
       after = [ "network-online.target" ];
       wants = [ "network-online.target" ];
 
-      path = [ pkgs.systemd ];
-
       serviceConfig = {
         # run as a dynamic user (no hard-coded /home paths needed)
         DynamicUser = true;
         StateDirectory = "somana-agent";
-        WorkingDirectory = "/var/lib/somana-agent";
+        WorkingDirectory = "%S/somana-agent";
 
         # use the packaged binary, point at the Nix-managed config
-        ExecStart = "${lib.getExe pkgs.somana-agent} -config /etc/somana-agent/config.yaml";
+        # Using the actual file path so systemd restarts the service when config changes
+        ExecStart = "${lib.getExe pkgs.somana-agent} -config ${configFile}";
 
         Restart = "always";
         RestartSec = 5;
-        StandardOutput = "journal";
-        StandardError = "journal";
       };
     };
   };

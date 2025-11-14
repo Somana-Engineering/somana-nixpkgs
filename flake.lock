@@ -25,6 +25,24 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "jetpack-nixos": {
       "inputs": {
         "cuda-legacy": "cuda-legacy",
@@ -33,11 +51,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762893463,
-        "narHash": "sha256-BC0ozUxjiv9CA6tjP3zWbYtsjGea+krQ2NVlGIchYIY=",
+        "lastModified": 1762988546,
+        "narHash": "sha256-ingYbpo0HBfcdQbJWl+G/P5OT0WA/XHeBcPjSCtZMT4=",
         "owner": "anduril",
         "repo": "jetpack-nixos",
-        "rev": "1806d52e8c3e50803f4bb660cba5da6ccb8a863e",
+        "rev": "53e472c326a2756e48ce2887733d64ed26cc65b0",
         "type": "github"
       },
       "original": {
@@ -46,60 +64,48 @@
         "type": "github"
       }
     },
-    "nixos-images": {
+    "nix-ros-overlay": {
       "inputs": {
-        "nixos-stable": [
-          "nixos-raspberrypi",
-          "nixpkgs"
-        ],
-        "nixos-unstable": [
-          "nixos-raspberrypi",
-          "nixpkgs"
-        ]
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1747747741,
-        "narHash": "sha256-LUOH27unNWbGTvZFitHonraNx0JF/55h30r9WxqrznM=",
-        "owner": "nvmd",
-        "repo": "nixos-images",
-        "rev": "cbbd6db325775096680b65e2a32fb6187c09bbb4",
+        "lastModified": 1762593451,
+        "narHash": "sha256-Mmo6HuDXoYIt1Qez5ytc5ejdhUSoej9SqW5hhvNmEeg=",
+        "owner": "lopsided98",
+        "repo": "nix-ros-overlay",
+        "rev": "1622b7a0adbd01006800210bc7b298fd430a2d34",
         "type": "github"
       },
       "original": {
-        "owner": "nvmd",
-        "ref": "sdimage-installer",
-        "repo": "nixos-images",
-        "type": "github"
-      }
-    },
-    "nixos-raspberrypi": {
-      "inputs": {
-        "argononed": "argononed",
-        "nixos-images": "nixos-images",
-        "nixpkgs": "nixpkgs_2"
-      },
-      "locked": {
-        "lastModified": 1758967172,
-        "narHash": "sha256-zRASAVS7tX7gPdvCUbi2m7KGX0jNuMlaOFqbkUZhu9k=",
-        "owner": "nvmd",
-        "repo": "nixos-raspberrypi",
-        "rev": "09c214a30e5a27e0fa92a9975b91c82ba05d1f17",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvmd",
-        "ref": "main",
-        "repo": "nixos-raspberrypi",
+        "owner": "lopsided98",
+        "repo": "nix-ros-overlay",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1762962661,
-        "narHash": "sha256-KsCSdKMZVaCeA4oJn2sUIvMdCdAQVJCMY7w7PLN0BJ4=",
+        "lastModified": 1759381078,
+        "narHash": "sha256-gTrEEp5gEspIcCOx9PD8kMaF1iEmfBcTbO0Jag2QhQs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "11d90faa5e023c5ba822f051611e2f1ae9d3a378",
+        "rev": "7df7ff7d8e00218376575f0acdcc5d66741351ee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lopsided98",
+        "ref": "nix-ros",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1763075743,
+        "narHash": "sha256-jUClngoxx+v6tk9Kav5bmy6nhD7eyEkPD5RMTaVtW5M=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9b61355474ef06923d16c05db4e998535b237fc5",
         "type": "github"
       },
       "original": {
@@ -112,7 +118,23 @@
     "root": {
       "inputs": {
         "jetpack-nixos": "jetpack-nixos",
-        "nixpkgs": "nixpkgs"
+        "nix-ros-overlay": "nix-ros-overlay",
+        "nixpkgs": "nixpkgs_2"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
       }
     }
   },

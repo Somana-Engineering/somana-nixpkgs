@@ -72,13 +72,8 @@
     ROS_VERSION = "2";
   };
 
-  # Automatically source ROS setup files in user shells
-  programs.bash.interactiveShellInit = ''
-    # Source ROS 2 Jazzy Base setup files
-    if [ -f "${pkgs.rosPackages.jazzy.base}/setup.bash" ]; then
-      source "${pkgs.rosPackages.jazzy.base}/setup.bash"
-    fi
-  '';
+  # ROS setup files will be available via the packages in systemPackages
+  # Users may need to manually source setup.bash files if needed
 
   # System state
   system.stateVersion = "25.05"; # Match your working system

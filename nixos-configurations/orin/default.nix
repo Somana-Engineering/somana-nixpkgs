@@ -92,7 +92,14 @@
       ROS_SETUP="${pkgs.rosPackages.jazzy.ros-base}/share/ros2_jazzy_ros_base/setup.bash"
     fi
     if [ -f "$ROS_SETUP" ]; then
+      echo "ROS: Successfully sourcing setup.bash from: $ROS_SETUP"
       source "$ROS_SETUP"
+      echo "ROS: Setup complete - ros2 command should now be available"
+    else
+      echo "ROS: Warning - setup.bash not found in any expected location"
+      echo "ROS: Tried: ${pkgs.rosPackages.jazzy.ros-base}/setup.bash"
+      echo "ROS: Tried: ${pkgs.rosPackages.jazzy.ros-base}/share/ros-jazzy-ros-base/setup.bash"
+      echo "ROS: Tried: ${pkgs.rosPackages.jazzy.ros-base}/share/ros2_jazzy_ros_base/setup.bash"
     fi
   '';
 

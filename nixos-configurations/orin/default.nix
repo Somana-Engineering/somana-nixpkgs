@@ -84,9 +84,9 @@
   # System state
   system.stateVersion = "25.05"; # Match your working system
 
-  services.somana-agent = {
+  services.sprinter-agent = {
     enable = true;
-    somanaUrl = "http://3.14.12.179:8080";
+    sprinterUrl = "http://3.14.12.179:8080";
     hostId = "5";
   };
   

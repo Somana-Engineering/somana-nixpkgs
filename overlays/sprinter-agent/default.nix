@@ -13,7 +13,7 @@ buildGoModule (finalAttrs: {
     owner = "somana-engineering";
     repo = "sprinter-agent";
     tag = "v${finalAttrs.version}";
-    hash = "";
+    hash = "sha256-CnVFJokFSPlaTbu/L0506PdGS1kRkxncLuwwpXhdYjs=";
   };
 
   vendorHash = "";

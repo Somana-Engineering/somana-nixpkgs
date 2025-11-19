@@ -3,6 +3,7 @@
   dockerTools,
   fetchFromGitHub,
   lib,
+  make,
 }:
 
 buildGoModule (finalAttrs: {
@@ -18,10 +19,14 @@ buildGoModule (finalAttrs: {
 
   vendorHash = "sha256-YLBgTvkm33tLWwlYpB+ShW6XHcW/MqIquXlO6FIgiEU=";
 
-  ldflags = [
-    "-s"
-    "-w"
-  ];
+  nativeBuildInputs = [ make ];
+
+  # Override buildPhase to use 'make build' instead of default go build
+  buildPhase = ''
+    runHook preBuild
+    make build
+    runHook postBuild
+  '';
 
   # TODO(jared): probably a good idea to rename this executable name
   meta.mainProgram = "server";

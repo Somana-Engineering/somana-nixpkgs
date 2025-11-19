@@ -3,7 +3,7 @@
   dockerTools,
   fetchFromGitHub,
   lib,
-  make,
+  gnumake,
 }:
 
 buildGoModule (finalAttrs: {
@@ -19,7 +19,7 @@ buildGoModule (finalAttrs: {
 
   vendorHash = "sha256-YLBgTvkm33tLWwlYpB+ShW6XHcW/MqIquXlO6FIgiEU=";
 
-  nativeBuildInputs = [ make ];
+  nativeBuildInputs = [ gnumake ];
 
   # Override buildPhase to use 'make build' instead of default go build
   buildPhase = ''

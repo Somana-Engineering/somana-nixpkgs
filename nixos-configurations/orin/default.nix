@@ -87,7 +87,6 @@
   services.sprinter-agent = {
     enable = true;
     sprinterUrl = "http://3.14.12.179:8080";
-    hostId = "5";
   };
   
   services.tailscale.enable = true;

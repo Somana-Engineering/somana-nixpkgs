@@ -4,6 +4,7 @@
   fetchFromGitHub,
   lib,
   gnumake,
+  curl,
 }:
 
 buildGoModule (finalAttrs: {
@@ -19,7 +20,7 @@ buildGoModule (finalAttrs: {
 
   vendorHash = "sha256-YLBgTvkm33tLWwlYpB+ShW6XHcW/MqIquXlO6FIgiEU=";
 
-  nativeBuildInputs = [ gnumake ];
+  nativeBuildInputs = [ gnumake curl ];
 
   # Override buildPhase to use 'make build' instead of default go build
   buildPhase = ''

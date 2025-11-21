@@ -28,14 +28,17 @@ in {
     systemd.services.sprinter-agent = {
       description = "Sprinter Agent";
       wantedBy = [ "multi-user.target" ];
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
+      after = [ "network-online.target" "tailscale.service" ];
+      wants = [ "network-online.target" "tailscale.service" ];
 
       serviceConfig = {
         # run as a dynamic user (no hard-coded /home paths needed)
         DynamicUser = true;
         StateDirectory = "sprinter-agent";
         WorkingDirectory = "%S/sprinter-agent";
+
+        # Add tailscale to PATH so the service can execute 'tailscale ip'
+        path = [ pkgs.tailscale ];
 
         # use the packaged binary, point at the Nix-managed config
         # Using the actual file path so systemd restarts the service when config changes

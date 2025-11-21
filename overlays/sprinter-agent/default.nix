@@ -44,31 +44,20 @@ buildGoModule (finalAttrs: {
 
   vendorHash = "sha256-JbfAQl9y/iVt2Id231Ufh7iYX0ViEzgAhP4DAFicmzE=";
 
-  # Add oapi-codegen to nativeBuildInputs so it's available during build
+  # Add oapi-codegen and make to nativeBuildInputs
   nativeBuildInputs = [ oapi-codegen ];
 
-  # Generate code from OpenAPI spec before building
+  # Pre-populate the OpenAPI spec file, then let Make handle code generation
+  # Make will see api/openapi.yaml exists and skip downloading it
   preBuild = ''
-    echo "Downloading OpenAPI specification..."
+    echo "Pre-populating OpenAPI specification for Make..."
     mkdir -p api
     cp ${openapiSpec} api/openapi.yaml
     
-    echo "Generating code from OpenAPI spec..."
-    mkdir -p internal/generated
-    
-    # Generate server code
-    ${lib.getExe oapi-codegen} \
-      -package generated \
-      -generate gin-server \
-      api/openapi.yaml > internal/generated/server.go
-    
-    # Generate client and types code
-    ${lib.getExe oapi-codegen} \
-      -package generated \
-      -generate types,client \
-      api/openapi.yaml > internal/generated/client.go
-    
-    echo "Code generation complete"
+    echo "Running make generate (will use existing api/openapi.yaml)..."
+    # Set OAPI_CODEGEN environment variable so Make can find it
+    export OAPI_CODEGEN=${lib.getExe oapi-codegen}
+    make generate
   '';
 
   ldflags = [

@@ -31,6 +31,9 @@ in {
       after = [ "network-online.target" "tailscale.service" ];
       wants = [ "network-online.target" "tailscale.service" ];
 
+      # NixOS-specific path option - adds packages to PATH for this service
+      path = [ pkgs.tailscale ];
+
       serviceConfig = {
         # Run as root to have access to system binaries (tailscale, systemctl)
         User = "root";

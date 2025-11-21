@@ -4,6 +4,7 @@
   fetchFromGitHub,
   fetchurl,
   lib,
+  pkgs,
 }:
 
 let
@@ -13,21 +14,7 @@ let
   # Download the OpenAPI specification
   openapiSpec = fetchurl {
     url = "https://github.com/miku-kookie/somana/releases/download/${openapiVersion}/openapi.yaml";
-    hash = "sha256-0000000000000000000000000000000000000000000000000000"; # Update this after first build
-  };
-
-  # Build oapi-codegen tool for code generation
-  oapi-codegen = buildGoModule {
-    pname = "oapi-codegen";
-    version = "2.3.0";
-    src = fetchFromGitHub {
-      owner = "oapi-codegen";
-      repo = "oapi-codegen";
-      rev = "v2.3.0";
-      hash = "sha256-0000000000000000000000000000000000000000000000000000"; # Update this after first build
-    };
-    vendorHash = "sha256-0000000000000000000000000000000000000000000000000000"; # Update this after first build
-    subPackages = [ "cmd/oapi-codegen" ];
+    hash = ""; 
   };
 in
 
@@ -44,8 +31,7 @@ buildGoModule (finalAttrs: {
 
   vendorHash = "sha256-JbfAQl9y/iVt2Id231Ufh7iYX0ViEzgAhP4DAFicmzE=";
 
-  # Add oapi-codegen and make to nativeBuildInputs
-  nativeBuildInputs = [ oapi-codegen ];
+  nativeBuildInputs = [ pkgs.oapi-codegen ];
 
   # Pre-populate the OpenAPI spec file, then let Make handle code generation
   # Make will see api/openapi.yaml exists and skip downloading it
@@ -56,7 +42,7 @@ buildGoModule (finalAttrs: {
     
     echo "Running make generate (will use existing api/openapi.yaml)..."
     # Set OAPI_CODEGEN environment variable so Make can find it
-    export OAPI_CODEGEN=${lib.getExe oapi-codegen}
+    export OAPI_CODEGEN=${lib.getExe pkgs.oapi-codegen}
     make generate
   '';
 

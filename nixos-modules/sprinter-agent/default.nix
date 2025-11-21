@@ -32,16 +32,10 @@ in {
       wants = [ "network-online.target" "tailscale.service" ];
 
       serviceConfig = {
-        # run as a dynamic user (no hard-coded /home paths needed)
-        DynamicUser = true;
+        # Run as root to have access to system binaries (tailscale, systemctl)
+        User = "root";
         StateDirectory = "sprinter-agent";
-        WorkingDirectory = "%S/sprinter-agent";
-
-        # Add tailscale and systemd to PATH so the service can execute 'tailscale ip' and 'systemctl'
-        # Include standard NixOS system paths
-        Environment = [
-          "PATH=${lib.makeBinPath [ pkgs.tailscale pkgs.systemd ]}:/run/current-system/sw/bin:/usr/bin:/bin"
-        ];
+        WorkingDirectory = "/var/lib/sprinter-agent";
 
         # use the packaged binary, point at the Nix-managed config
         # Using the actual file path so systemd restarts the service when config changes

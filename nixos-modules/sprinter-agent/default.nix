@@ -37,10 +37,10 @@ in {
         StateDirectory = "sprinter-agent";
         WorkingDirectory = "%S/sprinter-agent";
 
-        # Add tailscale to PATH so the service can execute 'tailscale ip'
-        # Preserve default system paths and add tailscale
+        # Add tailscale and systemd to PATH so the service can execute 'tailscale ip' and 'systemctl'
+        # Include standard NixOS system paths
         Environment = [
-          "PATH=${lib.makeBinPath [ pkgs.tailscale ]}:/usr/bin:/bin"
+          "PATH=${lib.makeBinPath [ pkgs.tailscale pkgs.systemd ]}:/run/current-system/sw/bin:/usr/bin:/bin"
         ];
 
         # use the packaged binary, point at the Nix-managed config

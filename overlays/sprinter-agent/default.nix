@@ -7,13 +7,13 @@
 
 buildGoModule (finalAttrs: {
   pname = "sprinter-agent";
-  version = "1.0.36";
+  version = "1.0.38";
 
   src = fetchFromGitHub {
     owner = "somana-engineering";
     repo = "sprinter-agent";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-2rANoCEYb1pbk7WRfK3X5+3n6vLcsF81oxArIy9TUl0=";
+    hash = "";
   };
 
   vendorHash = "sha256-JbfAQl9y/iVt2Id231Ufh7iYX0ViEzgAhP4DAFicmzE=";

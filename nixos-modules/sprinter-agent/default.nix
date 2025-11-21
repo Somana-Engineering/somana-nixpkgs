@@ -38,7 +38,7 @@ in {
         WorkingDirectory = "%S/sprinter-agent";
 
         # Add tailscale to PATH so the service can execute 'tailscale ip'
-        path = [ pkgs.tailscale ];
+        path = [ "${pkgs.tailscale}/bin" ];
 
         # use the packaged binary, point at the Nix-managed config
         # Using the actual file path so systemd restarts the service when config changes

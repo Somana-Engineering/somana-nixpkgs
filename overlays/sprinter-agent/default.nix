@@ -20,13 +20,13 @@ in
 
 buildGoModule (finalAttrs: {
   pname = "sprinter-agent";
-  version = "1.0.40";
+  version = "1.0.41";
 
   src = fetchFromGitHub {
     owner = "somana-engineering";
     repo = "sprinter-agent";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-r1BiQiB+Neav/efkgRuzDwGeexartiAjsnoKnLx+Dmo=";
+    hash = "";
   };
 
   vendorHash = "sha256-JbfAQl9y/iVt2Id231Ufh7iYX0ViEzgAhP4DAFicmzE=";

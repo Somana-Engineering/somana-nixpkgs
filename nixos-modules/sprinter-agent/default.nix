@@ -5,7 +5,6 @@ let
   configFile = (pkgs.formats.yaml {}).generate "sprinter-agent-config.yaml" {
     host_registration = {
       sprinter_url = cfg.sprinterUrl;
-      host_id = cfg.hostId;
     };
   };
 in {
@@ -21,12 +20,6 @@ in {
       description = "Base URL of the Sprinter API used for host registration.";
     };
 
-    # host_id used by the agent
-    hostId = lib.mkOption {
-      type = lib.types.str;
-      default = "0";
-      description = "Host ID used for host registration.";
-    };
   };
 
   #### 2) Config + systemd service, only if enabled

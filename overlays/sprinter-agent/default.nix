@@ -14,7 +14,7 @@ let
   # Download the OpenAPI specification
   openapiSpec = fetchurl {
     url = "https://github.com/Somana-Engineering/sprinter/releases/download/${openapiVersion}/openapi.yaml";
-    hash = ""; 
+    hash = "sha256-PUzKEqfeIV9oC4xNKAQJQ3sFiXi0FuzYQUhd09XRm7w="; 
   };
 in
 

@@ -4,7 +4,7 @@
   fetchFromGitHub,
   fetchurl,
   lib,
-  pkgs,
+  oapi-codegen,
 }:
 
 let
@@ -31,7 +31,7 @@ buildGoModule (finalAttrs: {
 
   vendorHash = "sha256-JbfAQl9y/iVt2Id231Ufh7iYX0ViEzgAhP4DAFicmzE=";
 
-  nativeBuildInputs = [ pkgs.oapi-codegen ];
+  nativeBuildInputs = [ oapi-codegen ];
 
   # Pre-populate the OpenAPI spec file, then let Make handle code generation
   # Make will see api/openapi.yaml exists and skip downloading it
@@ -41,8 +41,6 @@ buildGoModule (finalAttrs: {
     cp ${openapiSpec} api/openapi.yaml
     
     echo "Running make generate (will use existing api/openapi.yaml)..."
-    # Set OAPI_CODEGEN environment variable so Make can find it
-    export OAPI_CODEGEN=${lib.getExe pkgs.oapi-codegen}
     make generate
   '';
 

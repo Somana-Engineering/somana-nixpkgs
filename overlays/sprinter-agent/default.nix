@@ -13,8 +13,8 @@ let
   
   # Download the OpenAPI specification
   openapiSpec = fetchurl {
-    url = "https://github.com/miku-kookie/somana/releases/download/${openapiVersion}/openapi.yaml";
-    hash = "sha256-PUzKEqfeIV9oC4xNKAQJQ3sFiXi0FuzYQUhd09XRm7w="; 
+    url = "https://github.com/miku-kookie/sprinter/releases/download/${openapiVersion}/openapi.yaml";
+    hash = ""; 
   };
 in
 
@@ -26,10 +26,10 @@ buildGoModule (finalAttrs: {
     owner = "somana-engineering";
     repo = "sprinter-agent";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-4JpEnBs2jB4ZfwEJl6eoX5D9xSyQ9cEivryJr7rUBZA=";
+    hash = "";
   };
 
-  vendorHash = "sha256-JbfAQl9y/iVt2Id231Ufh7iYX0ViEzgAhP4DAFicmzE=";
+  vendorHash = "";
 
   nativeBuildInputs = [ oapi-codegen ];
 

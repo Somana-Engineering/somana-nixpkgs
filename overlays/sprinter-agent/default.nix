@@ -2,21 +2,47 @@
   buildGoModule,
   dockerTools,
   fetchFromGitHub,
+  fetchurl,
   lib,
+  oapi-codegen,
 }:
+
+let
+  # OpenAPI version from the Makefile
+  openapiVersion = "v1.0.37";
+  
+  # Download the OpenAPI specification
+  openapiSpec = fetchurl {
+    url = "https://github.com/Somana-Engineering/sprinter/releases/download/${openapiVersion}/openapi.yaml";
+    hash = "sha256-PUzKEqfeIV9oC4xNKAQJQ3sFiXi0FuzYQUhd09XRm7w="; 
+  };
+in
 
 buildGoModule (finalAttrs: {
   pname = "sprinter-agent";
-  version = "1.0.40";
+  version = "1.0.41";
 
   src = fetchFromGitHub {
     owner = "somana-engineering";
     repo = "sprinter-agent";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-r1BiQiB+Neav/efkgRuzDwGeexartiAjsnoKnLx+Dmo=";
+    hash = "sha256-4JpEnBs2jB4ZfwEJl6eoX5D9xSyQ9cEivryJr7rUBZA=";
   };
 
   vendorHash = "sha256-JbfAQl9y/iVt2Id231Ufh7iYX0ViEzgAhP4DAFicmzE=";
+
+  nativeBuildInputs = [ oapi-codegen ];
+
+  # Pre-populate the OpenAPI spec file, then let Make handle code generation
+  # Make will see api/openapi.yaml exists and skip downloading it
+  preBuild = ''
+    echo "Pre-populating OpenAPI specification for Make..."
+    mkdir -p api
+    cp ${openapiSpec} api/openapi.yaml
+    
+    echo "Running make generate (will use existing api/openapi.yaml)..."
+    make generate
+  '';
 
   ldflags = [
     "-s"

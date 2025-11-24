@@ -13,7 +13,7 @@ let
   
   # Download the OpenAPI specification
   openapiSpec = fetchurl {
-    url = "https://github.com/miku-kookie/sprinter/releases/download/${openapiVersion}/openapi.yaml";
+    url = "https://github.com/Somana-Engineering/sprinter/releases/download/${openapiVersion}/openapi.yaml";
     hash = ""; 
   };
 in

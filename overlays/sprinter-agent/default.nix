@@ -29,7 +29,7 @@ buildGoModule (finalAttrs: {
     hash = "sha256-4JpEnBs2jB4ZfwEJl6eoX5D9xSyQ9cEivryJr7rUBZA=";
   };
 
-  vendorHash = "";
+  vendorHash = "sha256-JbfAQl9y/iVt2Id231Ufh7iYX0ViEzgAhP4DAFicmzE=";
 
   nativeBuildInputs = [ oapi-codegen ];
 

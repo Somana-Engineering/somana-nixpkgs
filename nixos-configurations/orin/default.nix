@@ -84,6 +84,9 @@
   # System state
   system.stateVersion = "25.05"; # Match your working system
 
+  # Enable Nix experimental features (flakes)
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   services.sprinter-agent = {
     enable = true;
     sprinterUrl = "http://3.14.12.179:8080";

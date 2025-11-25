@@ -9,6 +9,7 @@
   };
 
   outputs = inputs: {
+    hydraJobs = import ./hydra-jobs inputs;
     legacyPackages = import ./legacy-packages inputs;
     nixosConfigurations = import ./nixos-configurations inputs;
     nixosModules = import ./nixos-modules inputs;

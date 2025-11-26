@@ -93,4 +93,7 @@
   };
   
   services.tailscale.enable = true;
+
+  # Intel RealSense camera support
+  hardware.realsense.enable = true;
 }

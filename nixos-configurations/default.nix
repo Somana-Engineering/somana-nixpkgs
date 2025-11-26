@@ -18,4 +18,16 @@ inputs: {
       ./rpi
     ];
   };
+  rpi5 = inputs.nixos-raspberrypi.lib.nixosSystem {
+    specialArgs = inputs; 
+    modules = [
+      {
+      imports = with inputs.nixos-raspberrypi.nixosModules; [
+          raspberry-pi-5.base
+          raspberry-pi-5.page-size-16k
+        ];
+      }	
+      ./rpi
+    ];
+  }; 
 }

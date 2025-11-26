@@ -2,6 +2,7 @@ inputs: {
   default = {
     imports = [
       ./sprinter-agent
+      ./realsense
       inputs.jetpack-nixos.nixosModules.default
       { 
         nixpkgs.overlays = [

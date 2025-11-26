@@ -64,6 +64,7 @@
       paths = [
         ros-core
         ros-base
+        realsense2-camera
         # add more ROS packages here if you want (rviz2, rosbag2, etc.)
       ];
     })
@@ -93,4 +94,7 @@
   };
   
   services.tailscale.enable = true;
+
+  # Intel RealSense camera support
+  hardware.realsense.enable = true;
 }

@@ -64,6 +64,7 @@
       paths = [
         ros-core
         ros-base
+        realsense2
         # add more ROS packages here if you want (rviz2, rosbag2, etc.)
       ];
     })

@@ -2,8 +2,9 @@ inputs: {
   orin-base = inputs.nixpkgs.lib.nixosSystem {
     modules = [
       inputs.self.nixosModules.default
-      { 
-	nixpkgs.buildPlatform = "aarch64-linux";
+      {
+        nixpkgs.hostPlatform = "aarch64-linux";
+        nixpkgs.buildPlatform = "x86_64-linux";
       }
       ./orin
     ];
